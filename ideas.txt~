@@ -1,0 +1,5 @@
+1) One line of javascript include
+2) Load other JS on the fly - see http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml to load jQuery and then http://api.jquery.com/jQuery.getScript/
+3) Remotely display pages - all form entries set to read only on the far end : $('#myFormID :input').attr('readonly','readonly');
+4) Tricky to connect in either direction due to issues in "finding" each other - skip for proof on concept
+5) Click on "share my page" button, load jQuery and other JS (see above), open tab on remote machine (must have already existing session?), send all current HTML content to the remote page plus scroll down position (remote page gets via a poll?), render page on remote tab (with $.load()? ) including making forms read-only, add appropriate event handlers (including page scroll), on event trigger send even to equivalent object on remote page
