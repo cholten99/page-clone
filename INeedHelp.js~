@@ -7,10 +7,7 @@ function loadJS(filename) {
 }
 
 function doIt() {
-  // First load jQuery
-  loadJS("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
-
-  // Then load any other JS we need
+  // Load any other JS we need
   loadJS("//bowsy.me.uk/PageClone/INeedHelpFull.js");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved

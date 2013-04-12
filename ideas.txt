@@ -3,3 +3,11 @@
 3) Remotely display pages - all form entries set to read only on the far end : $('#myFormID :input').attr('readonly','readonly');
 4) Tricky to connect in either direction due to issues in "finding" each other - skip for proof on concept
 5) Click on "share my page" button, load jQuery and other JS (see above), open tab on remote machine (must have already existing session?), send all current HTML content to the remote page plus scroll down position (remote page gets via a poll?), render page in an iFrame on remote tab (with $.load()? ) including making forms read-only, add appropriate event handlers (including page scroll), on event trigger send even to equivalent object on remote page
+
+TBD:
+1) Fix scrolling on page initialisation
+2) Put "TBD:" in places that need work
+3) Split different polling php scripts into different files with different logs (create utilty library for loging functions)
+4) Find out why lots of errors are turning up in console.log
+5) Make all form elements on the remote tab read-only
+6) Start creating event handlers, UID based / numbered server-side event cache, process events

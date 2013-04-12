@@ -1,4 +1,6 @@
 
+// TBD: This needs to be fixed so repeated calls for the same library don't introduce multiple versions
+// See original documentation
 function loadJS(filename) {
   var fileref=document.createElement('script');
   fileref.setAttribute("type","text/javascript");
@@ -10,7 +12,7 @@ function doIt() {
   // First load jQuery
   loadJS("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 
-  // Then load any other JS we need
+  // Load any other JS we need
   loadJS("//bowsy.me.uk/PageClone/INeedHelpFull.js");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved

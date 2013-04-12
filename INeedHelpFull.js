@@ -1,4 +1,3 @@
-
 function makeConnection() {
   // Set up the event handlers for form objects (including key pressed), links and page scroll
 
@@ -14,11 +13,11 @@ function makeConnection() {
 
   var scrollTop = $(window).scrollTop();
   var windowHeight = $(window).height();
-  var scrollPercent = (scrollTop / windowHeight) * 100;
+  var scrollPercent = Math.round((scrollTop / windowHeight) * 100);
 
   var html = $("html").html();
 
-//  $.post("firstConnection.php", { UID: "DavidDurant", HTML: html, Scroll: scroll })
+  $.post("phpFuncs.php", { funcNumber : 1, UID: "BillJoe", HTML: html, Scroll: scrollPercent });
 
 /* 
    >>>>>>>>>>>>>>
