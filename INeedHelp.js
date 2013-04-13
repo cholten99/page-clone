@@ -1,26 +1,36 @@
 
-// TBD: This needs to be fixed so repeated calls for the same library don't introduce multiple versions
-// See original documentation
-function loadJS(filename) {
+// Load javascript on the fly
+var filesadded="" //list of JS files already added
+
+function LoadJS(filename) {
   var fileref=document.createElement('script');
   fileref.setAttribute("type","text/javascript");
   fileref.setAttribute("src", filename);
   document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
-function doIt() {
+function CheckLoadJSFile(filename){
+ if (filesadded.indexOf("["+filename+"]")==-1) {
+  LoadJS(filename)
+  filesadded+="["+filename+"]"
+ }
+ else
+  console.log("Javascript file " + filename + " already added!")
+}
+
+function DoIt() {
   // First load jQuery
-  loadJS("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
+  CheckLoadJSFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 
   // Load any other JS we need
-  loadJS("//bowsy.me.uk/PageClone/INeedHelpFull.js");
+  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelpFull.js");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved
   // So, call the next function from a timer
-  window.setTimeout("doIt2()", 500);
+  window.setTimeout("DoIt2()", 500);
 }
 
-function doIt2() {
+function DoIt2() {
   // Call the function in the main library to do the actual work
-  makeConnection();
+  MakeConnection();
 }

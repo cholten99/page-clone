@@ -1,28 +1,17 @@
-function makeConnection() {
-  // Set up the event handlers for form objects (including key pressed), links and page scroll
 
-/* 
-   >>>>>>>>>>>>>>
-   TBD RIGHT HERE 
-   <<<<<<<<<<<<<<
-*/
+function MakeConnection() {
+  // TBD: Set up the event handlers for form objects (including key pressed) and handle links
 
-  // Set up first connection, need to send UID, full HTML and scroll position
+
+  // Set up first connection, need to send UID and full HTML
   // Have to use POST as HTML likely to be over 1024 bytes
-  // At some point will have to handle errors but nothing to do if successful
-
-  var scrollTop = $(window).scrollTop();
-  var windowHeight = $(window).height();
-  var scrollPercent = Math.round((scrollTop / windowHeight) * 100);
-
+  var uid = $("#aForm").find("#UID").val();
   var html = $("html").html();
 
-  $.post("phpFuncs.php", { funcNumber : 1, UID: "BillJoe", HTML: html, Scroll: scrollPercent });
+  $.post("INeedHelp.php", { UID: uid, HTML: html });
+}
 
-/* 
-   >>>>>>>>>>>>>>
-   TBD RIGHT HERE 
-   <<<<<<<<<<<<<<
-*/
-
+function sendEvent() {
+  // TBD : Send captured events to the server - including UID
+  
 }
