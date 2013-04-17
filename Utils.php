@@ -22,18 +22,23 @@ function TestLogArray($toLog) {
   TestLog($result);
 }
 
+// Connect to the database
+function ConnectToDB() {
+  return(new mysqli("localhost", "bowsy", "VU8Jc7ccirsre73", "bowsy_PageClone"));
+}
+
 // Add a row to a database - return the new row number
 function DatabaseAdd($dbArgs) {
   $table = $dbArgs['Table'];
   unset($dbArgs['Table']);
 
-  $mysqli = new mysqli("localhost", "bowsy", "VU8Jc7ccirsre73", "bowsy_PageClone");
+  $mysqli = ConnectToDB();
 
   $fields = "";
   $values = "";
   foreach ($dbArgs as $key => $value) {
     $fields .= "" . $key . ",";
-    $values .= "\"" . $mysqli->real_escape_string($value) . "\",";
+    $values .= "\"" . $mysqli->real_escape_string(stripslashes($value)) . "\",";
   }
   $fields = rtrim($fields, ",");
   $values = rtrim($values, ",");

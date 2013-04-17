@@ -4,6 +4,8 @@
 4) Tricky to connect in either direction due to issues in "finding" each other - skip for proof on concept
 5) Click on "share my page" button, load jQuery and other JS (see above), open tab on remote machine (must have already existing session?), send all current HTML content to the remote page plus scroll down position (remote page gets via a poll?), render page in an iFrame on remote tab (with $.load()? ) including making forms read-only, add appropriate event handlers (including page scroll), on event trigger send even to equivalent object on remote page
 
+Note : See this for getting form element names and values - http://pietschsoft.com/post/2006/06/01/Javascript-Loop-through-all-elements-in-a-form.aspx
+
 TBD:
 1) The stuff in turning up in HEAD in the remote tab is wonky - causing errors in console.log - stripped out for now
 2) Put "TBD:" in places that need work

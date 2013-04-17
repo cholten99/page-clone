@@ -7,6 +7,7 @@ $dbArgs['Table'] = "HelpRequests";
 $dbArgs['UserUID'] = $_POST['UID'];
 $dbArgs['UserHTML'] = $_POST['HTML'];
 $dbArgs['Status'] = "Open";
+$dbArgs['HelperUID'] = "Unasigned";
 
 DatabaseAdd($dbArgs);
 
