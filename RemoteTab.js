@@ -17,6 +17,14 @@ function InitialPageLoadAndPoll(UserUID, HelperUID) {
     // Replace the current BODY contents with the remote tab contents
     $("#ChangeMe").html(html);    
 
+    // TBD : Replicate the form contents
+    formDataJSON = dataArray['UserFormData'];
+    formDataArray = jQuery.parseJSON(formDataJSON);
+
+    for(var index in formDataArray) {
+      $("#" + index).values(formDataArray[index]);
+    }
+
     // Set all the elements in all the forms to disabled
     $("form").each(function() {
       $("#" + this.name + " :input").attr("disabled", true);

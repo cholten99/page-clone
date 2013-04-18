@@ -1,4 +1,3 @@
-
 // Load javascript on the fly
 var filesadded="" //list of JS files already added
 
@@ -21,6 +20,9 @@ function CheckLoadJSFile(filename){
 function DoIt() {
   // First load jQuery
   CheckLoadJSFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
+
+  // Load the Utils library
+  CheckLoadJSFile("//bowsy.me.uk/PageClone/Utils.js");
 
   // Load any other JS we need
   CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelpFull.js");
