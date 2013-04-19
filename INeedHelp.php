@@ -6,9 +6,11 @@ include "Utils.php";
 $dbArgs['Table'] = "HelpRequests";
 $dbArgs['UserUID'] = $_POST['UID'];
 $dbArgs['UserHTML'] = $_POST['HTML'];
+$dbArgs['UserHTMLTimestamp'] = 0;
+$dbArgs['UserFormData'] = $_POST['UserFormData'];
+$dbArgs['UserFormDataTimestamp'] = 0;
 $dbArgs['Status'] = "Open";
 $dbArgs['HelperUID'] = "Unasigned";
-$dbArgs['UserFormData'] = $_POST['UserFormData'];
 
 DatabaseAdd($dbArgs);
 

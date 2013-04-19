@@ -11,7 +11,7 @@ $updateStatusResult = $mysqli->query($updateStatusString);
 $updateHelperUIDString = "UPDATE HelpRequests SET HelperUID='" . $_GET['HelperUID'] . "' WHERE UserUID='" . $_GET['UserUID'] . "'";
 $updateHelperUIDResult = $mysqli->query($updateHelperUIDString);
 
-$queryString = "SELECT UserHTML, UserFormData FROM HelpRequests WHERE UserUID='" . $_GET['UserUID'] . "'";
+$queryString = "SELECT UserHTML, UserHTMLTimestamp, UserFormData, UserFormDataTimestamp FROM HelpRequests WHERE UserUID='" . $_GET['UserUID'] . "'";
 $queryResult = $mysqli->query($queryString);
 $resultArray = $queryResult->fetch_array(MYSQLI_ASSOC);
 

@@ -25,7 +25,7 @@ function DoIt() {
   CheckLoadJSFile("//bowsy.me.uk/PageClone/Utils.js");
 
   // Load any other JS we need
-  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelpFull.js");
+  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelpFull.js?v=2");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved
   // So, call the next function from a timer
