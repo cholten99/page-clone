@@ -1,0 +1,95 @@
+﻿Page Clone
+
+TBD : Look for all instances in code of “TBD”!
+Check all the code for Coding Style!
+Fix it so that ending a session also closes the appropriate Remote Tab
+Update IneedHelpFull.js to look so that is looks for status “Closed” rather than the row missing from the DB when the session is ended
+Coding Standard document (and refer to it in this) – PUTTING VAR IN FRONT OF JS VARIABLES!
+Use random word to connect to correct session rather than entering UID : http://randomword.setgetgo.com/get.php
+The rest of this!
+Remember to also include library functions in coding standards check
+Remember to put back into github!!
+
+Introduction
+
+The idea for this simple demonstration came from a conversation I had with a very helpful support team member from HMRC when I had issues attempting to fill in their self-assessment form. At one point during that conversation he said “can you let me know what you are seeing since I can't see your screen”. It occurred to me that the help he was providing could have been immensely improved if he could have seen the same view of the web page I was seeing while he was assisting me.
+
+There are a number of existing systems used to “clone” views on remote PCs. The most popular of these include NVC, Windows Desktop Sharing, Skype and Google's Chrome Remote Desktop. The issue with each of these systems is that they are relatively complex to install and configure, often require the user needing assistance to use an identity management system and, most critically, they share the entire desktop of the remote machine.
+
+In this use-case I was concerned at the prospect of whole-desktop sharing as it is possible that the user could have other windows open on their desktop which contained personal or private information such as bank details.
+
+Instead, I surmised that it would be possible just to “clone” the contents of a particular web page or set of pages that the user required help with. This would require zero installation or configuration on the part of the user, remove the need for them to log into any specific identity system and eliminate the possibility of the assisting user accidentally viewing any personal or private data.
+
+Using the demonstration
+
+Step 1 : The person in need of help
+
+THIS BIT STILL TBD!
+
+Step 2 : The “Help Guy”
+
+Go to : http://bowsy.me.uk/PageClone/HelpGuy/
+You will see a very simple simulation of a help assistant login page for tax disk registration
+Enter any name and press return
+You will now see the queue of waiting help requests if there are any in the queue. If there are none only the fact that there are zero waiting requests will be shown. The list of waiting requests will updated automatically as new calls are added by users and taken by other assistants. The “Unique Reference” for each call is a random word assigned to the user when they ask for help. This word must be given to the help assistant via another channel such as a phone call. This system is used so that the user does not need to log into an identification framework before they can use the system.
+Clicking on the Unique Reference will open the real-time updated “Remote Tab” that shows the page the user in need of assistance is currently seeing.
+Clicking on Close Session will cause that session to be removed from the queue and the Remote Tab to be closed if it was opened.
+
+Step 3: The Remote Tab
+
+THIS BIT STILL TBD!
+
+A quick word on language choice
+
+The front-end of this prototype is developed in HTML, CSS and JavaScript.
+
+Despite being in the process of learning Python I chose to implement the server-side code for this demonstration in PHP as this is the scripting language I currently know best. This is not a reflection of my opinion of how it would be best implemented if the concept was redeveloped at scale.
+
+Github
+
+The sources for this prototype can be found at : https://github.com/cholten99/PageClone
+
+A quick word on the database
+
+The database very simple. There is one table, HelpRequests, which is made up of the following eight fields:
+
+UID (int, auto-update) : Unique ID of this help session (currently unused)
+UserUID : (varchar) : The unique ID of the user in this help session
+UserHTML : (varchar) : The HTML of the page being shared
+UserHTMLTimestamp (int) : The time-stamp (seconds since epoch) when the UserHTML field was last updated
+UserFormData (varchar) : The content of all the forms in the page being shared
+UserFormDataTimestamp (varchar) : The time-stamp (seconds since epoch) when the UserFormData field was last updated
+
+
+The database can be recreated with the following SQL code:
+
+CREATE TABLE IF NOT EXISTS `HelpRequests` (
+  `UID` int(11) NOT NULL auto_increment,
+  `UserUID` varchar(50) NOT NULL,
+  `UserHTML` varchar(10000) NOT NULL,
+  `UserHTMLTimestamp` int(11) NOT NULL,
+  `UserFormData` varchar(5000) NOT NULL,
+  `UserFormDataTimestamp` int(11) NOT NULL,
+  PRIMARY KEY  (`UID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+
+Code layout
+
+The code is laid out in four folders:
+Common : This folder contains common JavaScript and PHP resources used by the rest of the code
+INeedHelp : The HTML pages and code used by the user needing assistance
+HelpGuy : The HTML page and code used by the user providing assistance
+RemoteTab : The HTML page and code used to create a “clone” tab of the page currently being viewed by the user requesting assistance
+
+How it works
+
+THIS BIT STILL TBD!
+
+Obvious issues and suggestions for improvement
+As it stands the code is extremely inefficient. Although it works successfully enough to demonstrate the concept it is currently based on a number of timed “polling” loops which check for UI (form content) or database changes. This is a classic producer / consumer  scenario with inherent lags and the possibility of race conditions.  In a production system I would expect these polling loops to be replaced with event based actions. For the UI this would involve registering appropriate jQuery event handlers on the widgets of each of the forms in the current web-page. For the database this could be registering a trigger that would be called when the DB row in question is updated. That combined with long time-out AJAX calls could be used to implement a notification system back to the browser (although if the server-side code is in an endless loop waiting for database notifications thought needs to be given on how to terminate that loop if the browser is no longer receiving the notifications).
+At present there are many database connections set up and torn-down by the code. This is due to a combination of the polling mechanisms mentioned above and the fact that for every database access a new connection is created and destroyed. In a production system I would expect a single database connection to be created for each user / helper pair and kept open until the assisting session is complete (holding the connection in a session or equivalent).
+The use of memory based caching (MemCache) and system-level messaging (RabbitMQ) may remove these issues (I don't yet know enough about either system to be certain).
+There is no error handling in place in the prototype that would have to be included included in a production version of the system.
+There are no security features such as https, logging, etc implemented in the prototype.
+

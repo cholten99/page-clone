@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <script src="INeedHelp.js"></script>
+    <link rel="stylesheet" type="text/css" href="INeedHelp.css">
+  </head>
+
+  <body onload="ExistingHelpSessionCheck()">
+
+    <div id="Header"><img src="../Common/Header.png"></div><p>
+
+    <div id="Area">Registering for a for Tax Disc Registration</div><p>
+
+    <div id="ExampleForm1">Please enter your personal details:</div><p>
+
+    <form id='aForm' name='aForm' action='javascript:void(0);' method='get'>
+      Name:<br> 
+      <input type='text' id='fullname' name='fullname'><p>
+      Address:<br>
+      <textarea name='address' id='address' rows='4' cols='50' text-align='top'></textarea>
+    </form><p>
+
+    <form id='bForm' name='bForm' action='Page2.php' method='get'>
+      Nationality:<br>
+      <select id="nationality" name='nationality'>
+        <option value="English">English</option>
+        <option value="Scottish">Scottish</option>
+        <option value="Irish">Irish</option>
+        <option value="Welsh">Welsh</option>
+      </select><p>
+
+      Gender:<br>
+      <input type="radio" name="sex" id="sex" value="male">Male<br>
+      <input type="radio" name="sex" id="sex" value="female">Female
+      <p>
+    
+      <input type="submit" value="Next"><p>
+
+    </form><p>
+
+    <hr align="left" width="20%" size="3"/><p>
+
+    <div id='HelpRequest'><button type='button' onclick='DoIt("NewCall")'>Request Help</button></div>
+
+  </body>
+</html>

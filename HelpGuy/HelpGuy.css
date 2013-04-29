@@ -1,0 +1,56 @@
+#Area {
+ font-size:200%; 
+}
+
+#Login {
+  font-size:120%;
+}
+
+#Users {
+  font-size:120%;
+}
+
+#ListHeaders {
+  font-size:120%;
+}
+
+#TopText {
+  font-size:120%;
+}
+
+#ListHeader {
+  width:20%;
+  border-style:solid;
+  border-width:1px;
+  cell-padding:4px;
+  padding-left:10px;
+  cell-spacing:2px;
+  background:#EAF5FF;
+  float:left;
+}
+
+#true {
+  width:20%;
+  border-style:solid;
+  border-width:1px;
+  float:left;
+  cell-padding:4px;
+  padding-left:10px;
+  cell-spacing:2px;
+  background:#70B8FF;
+}
+
+#false {
+  width:20%;
+  border-style:solid;
+  border-width:1px;
+  float:left;
+  cell-padding:4px;
+  padding-left:10px;
+  cell-spacing:2px;
+  background:#66CCFF;
+}
+
+#ListRow {
+  clear:both;
+}
