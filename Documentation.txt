@@ -1,4 +1,4 @@
-﻿Page Clone
+Page Clone
 ++++++++++
 
 Terminology
@@ -13,40 +13,40 @@ The idea for this simple demonstration came from a phone conversation I had with
 
 There are a number of existing systems used to “clone” views on remote PCs. The most popular of these include NVC, Windows Desktop Sharing, Skype and Google's Chrome Remote Desktop. The issue with each of these systems is that they are relatively complex to install and configure, often require the User to login using an identity management system and, most critically, they share the entire desktop of the remote machine.
 
-In this use-case I was concerned at the prospect of whole-desktop sharing as it is possible that the user could have other windows open on their desktop which contained personal or private information such as bank details.
+In this use-case I was concerned at the prospect of whole-desktop sharing as it is possible that the User could have other windows open on their desktop which contained personal or private information such as bank details.
 
-Instead, I surmised that it would be possible just to “clone” the contents of a particular web page or set of pages that the user required help with. This would require zero installation or configuration on the part of the user, remove the need for them to log into any specific identity system and eliminate the possibility of the assisting user accidentally viewing any personal or private data.
+Instead, I surmised that it would be possible just to “clone” the contents of a particular web page or set of pages that the User required help with. This would require zero installation or configuration on the part of the User, remove the need for them to log into any specific identity system and eliminate the possibility of the Support User accidentally viewing any personal or private data.
 
-It can theoretically be configured to have minimal database and network resource needs (including loading the majority on needed Javascript on the fly) and beyond initial development and training has almost zero associated costs.
+It can theoretically be configured to have minimal database and network resource needs (including loading the majority of needed Javascript on the fly) and, beyond initial development and training, has almost zero associated costs.
 
 Using the demonstration
 =======================
 
-Step 1 : The person in need of help
------------------------------------
+Step 1 : The User
+-----------------
 
 * Go to : http://bowsy.me.uk/PageClone/INeedHelp/
-* You will see a simple simulation of a form used to enter information to order a tax disc
+* The User will see a simple simulation of a form used to enter information to order a tax disc
 * Filling in the forms and pressing the Next button enables the User to navigate through the prototype
 * At any stage clicking on the Request Help button at the bottom of the page will raise a support session request
 * At that time the "Request Help" button will be replaced by a statement containing the randomly generated "support session keyword"
 * In a real scenario this keyword would be supplied to the Support User via a separate channel (phone conversation or text chat) - this identifier removes the need for the User to login to an identification system
-* The Support User can now open a Remote Tab to observe what is happening as the User interacts with the site including seeing form fields updated in real time and the User moving from page to page
+* The Support User can now open a Remote Tab to observe what is happening as the User interacts with the site, including seeing form fields updated in real time and the User moving from page to page
 
-Step 2 : The “Help Guy”
------------------------
+Step 2 : The Support User
+-------------------------
 
 * Go to : http://bowsy.me.uk/PageClone/HelpGuy/
-* You will see a simple simulation of a help assistant login page for tax disk registration
+* The Support User will see a simple simulation of a help assistant login page for tax disk registration
 * Enter any name and press return
-* You will now see the queue of waiting help requests if there are any in the queue. 
-* The list of waiting requests will updated automatically as new calls are added by users
+* The Support User will now see the queue of waiting help requests if there are any in the queue
+* The list of waiting requests will updated automatically as new calls are added by Users
 * Clicking on one of the Session Keywords will open the real-time updated Remote Tab that shows the page the User is currently seeing
 
 Step 3: The Remote Tab
 ----------------------
 
-* This tab opens automatically and shows the page the user is seeing, it is updated in real time
+* This tab opens automatically and shows the page the User is seeing, and is updated in real time
 * All form fields are set to read only and highlighted in red
 * Currently, when the help session is finished this window must be closed manually
 
@@ -68,7 +68,7 @@ A quick word on the database
 The database is currently very simple. There is one table, HelpRequests, which is made up of the following fields:
 
 * UID (int, auto-update) : Unique ID of this help session (currently unused)
-* UserUID : (varchar) : The unique ID of the user in this help session
+* UserUID : (varchar) : The unique ID of the User in this help session
 * UserHTML : (varchar) : The HTML of the page being shared
 * UserHTMLTimestamp (int) : The time-stamp (seconds since epoch) when the UserHTML field was last updated
 * UserFormData (varchar) : The content of all the forms in the page being shared
@@ -101,16 +101,16 @@ How it works
 The User code
 -------------
 
-* When a user page is loaded the Javascript page onLoad function to call ExistingHelpSessionCheck to see if an existing session is already taking place. This is done by using a browser cookie called UserUID. There is a hard-coded check to see if the current URL is the first page in the set, if so the cookie is set to empty-string. If it is not and if the cookie is not empty the session is continued by calling the DoIt function with the existing UserUID.
-* Alternatively, if there is not an existing session one is started by the User clicking on the Help Request button. This calls the DoIt function with the UserUID value set to "NewCall".
-* The DoIt function first loads additionally needed Javascript, including jQuery, on the fly. This is done to reduce the Javascript footprint on the prototype - removing the need to include large libraries in every page load if a support session is not needed. The current execution stack must end before the libraries are initialised so the ConnectSession function is then called via a setTimeout function.
+* When a User page is loaded the Javascript page onLoad function calls ExistingHelpSessionCheck to see if an existing session is already taking place. This check is done by using a browser cookie called UserUID. There is a hard-coded check to see if the current URL is the first page in the set; if so the cookie is set to empty-string. If it is not and if the cookie is not empty the session is continued by calling the DoIt function with the existing UserUID.
+* Alternatively, if there is not an existing session one can be started by the User clicking on the Help Request button. This calls the DoIt function with the UserUID value set to "NewCall".
+* The DoIt function first loads additionally needed Javascript, including jQuery, on the fly. This is done to reduce the Javascript footprint on the prototype, removing the need to include large libraries in every page load if a support session is not needed. The current execution stack must end before the libraries are initialised so the ConnectSession function is then called via a setTimeout function.
 * The ConnectSession function performs one of two actions depending on whether this is the creation of the session (i.e. the value of userUID passed in is "NewCall"). If it is creating a new session it generates a random identifier for the session (to be passed between User and Support User via another channel) and stores that in the global variable UserUID, creates a new entry in the database for the session and creates the browser cookie. If it is dealing with an existing session it updates UserUID from the value retrieved from the cookie and updates the appropriate existing row in the database (including the HTML and forms timestamps, see below). In both cases it updates the current page seen by the User to show the help session identifier, stores the state of all the page's forms in the global variable FormsData and then calls CheckForFormsChange via a setTimeout.
 * CheckForFormsChange gets the current contents of all the page's forms and compares it to the previous value stored in the global variable FormsData. If it is different (i.e. the User has updated one of the widgets) the appropriate row in the database is updated (including the forms timestamp, see below). CheckForFormsChange then calls itself in an endless functional loop (until the page is closed) via setTimeout.
 
 The Support User code
 ---------------------
 
-* Initially all that is displayed in the Support User login. When this is entered the function Login is called.
+* Initially all that is displayed is the Support User login. When this is entered the function Login is called.
 * Login updates the page to show the Support User is now logged in (in reality the entered name is not stored or used for anything else). It then calls PollSessionRequests.
 * PollSessionRequests fetches a list of all support requests from the DB and displays them as links that open an appropriate Remote Tab. It then calls itself in an endless functional loop (until the page is closed) via setTimeout.
 
@@ -118,20 +118,20 @@ The Remote Tab code
 -------------------
 
 * The URL for this page contains the session identification (UserUID). When the page is loaded the Javascript function onLoad calls PollForChanges passing in the UserUID and a value of zero for both timestamps. The value for UserUID is filled-in server side when the page is created by PHP.
-* PollForChanges first fetches the two timestamps (UserHTMLTimestamp and UserFormDataTimestamp) from the server. If the value of the HTML timestamp on the server is more recent than the value passed into the function (i.e. the User has moved to a new page) it fetches the HTML for the page from server. The HEAD section and the Request Help section are removed. The updated HTML is then displayed to the Support User in this Remote Tab. The form contents are then updated (see below). Lastly all the form widgets are set to read-only and red text. If the HTML timestamp value is not more recent than the one on the server (i.e. the user has updated a form widget on the existing page) then the forms are updated via the new values fetched for their contents from the server. If neither fetched timestamp value is newer than the values passed into the function nothing happens. Regardless, the function calls itself in an endless functional loop (until the page is closed) via setTimout (passing in the fetched values on the timestamps if either is newer).
+* PollForChanges first fetches the two timestamps (UserHTMLTimestamp and UserFormDataTimestamp) from the server. If the value of the HTML timestamp on the server is more recent than the value passed into the function (i.e. the User has moved to a new page) it fetches the HTML for the page from the server. The HEAD section and the Request Help section are removed. The updated HTML is then displayed to the Support User in this Remote Tab. The form contents are then updated (see below). Lastly all the form widgets are set to read-only and red text. If the HTML timestamp value is not more recent than the one on the server but the form timestamp is (i.e. the user has updated a form widget on the existing page) then the forms are updated via the new values fetched for their contents from the server. If neither fetched timestamp value is newer than the values passed into the function nothing happens. Regardless, the function calls itself in an endless functional loop (until the page is closed) via setTimout (passing in the fetched values on the timestamps if either is newer).
 
 Issues and suggestions for improvement
 ======================================
 
 As it stands the code has a significant number of issues. I don't believe that any of these are unsolvable given careful architectural design.
 
-The original plan for the architecture was cut short due to time (e.g. patience) issues. While the site can support multiple Users and Support Users it does not do this in a clean visible way. The User does not see the name of the Support User helping them (it's not stored in the database). Support Users cannot see which requests for help are currently being dealt with by other Support Users or which are now complete.
+While the site can support multiple Users and Support Users it does not do this in a clean visible way. The User does not see the name of the Support User helping them (it's not stored in the database). Support Users cannot see which requests for help are currently being dealt with by other Support Users or which are now complete.
 
 There is no point in the process where sessions are removed from the database so all sessions are always shown to all Support Users.
 
 Navigation between pages is handled by a browser cookie. This is reset in Javascript when the first page for the User is loaded. The code checks specifically for that hard-coded URL.
 
-The code is extremely inefficient. Although it works successfully enough to demonstrate the concept it is currently based on a number of timed “polling” loops which check for UI (form content) or database changes. This is a classic producer / consumer scenario with inherent lags slowing down then entire system, hammering the network and the possibility of introduced race conditions. In a production system I would expect these polling loops to be replaced with event based actions. For the UI this would involve registering appropriate jQuery event handlers on the widgets of each of the forms in the current page. For the database this could be registering appropriate triggers that would be called when the DB row in question is updated. There is also the possibility of utilising long time-out AJAX calls to implement a notification system back to the browser.
+The code is currently inefficient. Although it works successfully enough to demonstrate the concept it is currently based on a number of timed “polling” loops which check for UI (form content) or database changes. This is a classic producer / consumer scenario with inherent lags slowing down then entire system, hammering the network and the possibility of introduced race conditions. In a production system I would expect these polling loops to be replaced with event based actions. For the UI this would involve registering appropriate jQuery event handlers on the widgets of each of the forms in the current page. For the database this could be registering appropriate triggers that would be called when the DB row in question is updated. There is also the possibility of utilising long time-out AJAX calls to implement a notification system back to the browser.
 
 At present there are many database connections set up and torn-down by the code. This is due to a combination of the polling mechanisms mentioned above and the fact that for every database access a new connection is created and destroyed. In a production system I would expect a single database connection to be created for each User or Support User and kept open until no longer needed.
 
