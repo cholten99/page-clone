@@ -24,7 +24,7 @@ function ConnectToDB() {
 }
 
 // Get all the fields in a row given the UserUID
-function GetWholeRow(&$dbArray) {
+function GetWholeRow($dbArray) {
   $mysqli = ConnectToDB();
   $queryString = "SELECT * FROM HelpRequests WHERE UserUID='" . $dbArray['UserUID'] . "'";
   $result = $mysqli->query($queryString);
@@ -33,7 +33,7 @@ function GetWholeRow(&$dbArray) {
   return $row;
 }
 
-function GetFieldsForRow(&$dbArray) {
+function GetFieldsForRow($dbArray) {
   $userUID = $dbArray['UserUID'];
   unset($dbArray['UserUID']);
 
@@ -53,7 +53,7 @@ function GetFieldsForRow(&$dbArray) {
 }
 
 // Get the supplied fields for all rows in the DB 
-function GetAllRowsForFields(&$dbArray) {
+function GetAllRowsForFields($dbArray) {
   $mysqli = ConnectToDB();
 
   $fields = "";
@@ -74,7 +74,7 @@ function GetAllRowsForFields(&$dbArray) {
   return($returnArray);
 }
 
-function UpdateRow(&$dbArray) {
+function UpdateRow($dbArray) {
   $userUID = $dbArray['UserUID'];
   unset($dbArray['UserUID']);
 
@@ -94,7 +94,7 @@ function UpdateRow(&$dbArray) {
 }
 
 // Add a row to the database - return the new row number
-function AddRow(&$dbArray) {
+function AddRow($dbArray) {
   $mysqli = ConnectToDB();
   $fields = "";
   $values = "";
@@ -111,7 +111,7 @@ function AddRow(&$dbArray) {
 }
 
 // Remove a row from the database
-function DeleteRow(&$dbArray) {
+function DeleteRow($dbArray) {
   $mysqli = ConnectToDB();
   $deleteString = "DELETE FROM HelpRequests WHERE UserUID='" . $dbArray['UserUID'] . "'";
   $mysqli->query($deleteString);
