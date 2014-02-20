@@ -1,10 +1,12 @@
 <html>
   <head>
     <script src="INeedHelp.js"></script>
-    <link rel="stylesheet" type="text/css" href="INeedHelp.css">
+    <link rel="stylesheet" type="text/css" href="http://bowsy.me.uk/PageClone/INeedHelp/INeedHelp.css">
   </head>
 
   <body onload="ExistingHelpSessionCheck()">
+
+    <div id='HelpRequest'><button type='button' onclick='SetUpSession("NewCall")'>Request Help</button></div><p/>
 
     <div id="Header"><img src="../Common/Header.png"></div><p>
 
@@ -27,17 +29,13 @@
       </select><p>
 
       Gearbox Type:<br>
-      <input type="radio" name="gearbox" id="gearbox" value="manual">Manual<br>
-      <input type="radio" name="gearbox" id="gearbox" value="automatic">Automatic
+      <input type="radio" name="gearbox" id="gearboxManualRadio" value="manual">Manual<br>
+      <input type="radio" name="gearbox" id="gearboxAutomaticRadio" value="automatic">Automatic
       <p>
     
       <input type="submit" value="Next"><p>
 
     </form><p>
-
-    <hr align="left" width="20%" size="3"/><p>
-
-    <div id='HelpRequest'><button type='button' onclick='DoIt("NewCall")'>Request Help</button></div>
 
   </body>
 </html>

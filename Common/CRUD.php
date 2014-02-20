@@ -1,6 +1,9 @@
 <?php
 
 include "Logging.php";
+ClearLog();
+// TestLogArray($_POST);
+// TestLogArray($_GET);
 
 // MAIN - Call the appropriate function
 $function = "";
@@ -26,7 +29,7 @@ function ConnectToDB() {
 // Get all the fields in a row given the UserUID
 function GetWholeRow($dbArray) {
   $mysqli = ConnectToDB();
-  $queryString = "SELECT * FROM HelpRequests WHERE UserUID='" . $dbArray['UserUID'] . "'";
+  $queryString = "SELECT * FROM " . $dbArray["Table"] . " WHERE UserUID='" . $dbArray['UserUID'] . "'";
   $result = $mysqli->query($queryString);
   $row = $result->fetch_array(MYSQLI_ASSOC);
   $mysqli->close();
@@ -38,14 +41,16 @@ function GetFieldsForRow($dbArray) {
   unset($dbArray['UserUID']);
 
   $mysqli = ConnectToDB();
-  
+  $table =  $dbArray['Table'];
+  unset($dbArray['Table']);  
+
   $fields = "";
   foreach ($dbArray as $key => $value) {
     $fields .= $key . ",";
   }
   $fields = rtrim($fields, ",");
 
-  $queryString = "SELECT " . $fields . " FROM HelpRequests WHERE UserUID='" . $userUID . "'";
+  $queryString = "SELECT " . $fields . " FROM " . $table . " WHERE UserUID='" . $userUID . "'";
   $result = $mysqli->query($queryString);
   $row = $result->fetch_array(MYSQLI_ASSOC);
   $mysqli->close();
@@ -56,13 +61,16 @@ function GetFieldsForRow($dbArray) {
 function GetAllRowsForFields($dbArray) {
   $mysqli = ConnectToDB();
 
+  $table =  $dbArray['Table'];
+  unset($dbArray['Table']);  
+
   $fields = "";
   foreach ($dbArray as $key => $value) {
     $fields .= $key . ",";
   }
   $fields = rtrim($fields, ",");
 
-  $queryString = "SELECT " . $fields . " FROM HelpRequests";
+  $queryString = "SELECT " . $fields . " FROM " . $table;
   $result = $mysqli->query($queryString);
 
   $returnArray = array();
@@ -78,8 +86,11 @@ function UpdateRow($dbArray) {
   $userUID = $dbArray['UserUID'];
   unset($dbArray['UserUID']);
 
+  $table =  $dbArray['Table'];
+  unset($dbArray['Table']);  
+
   $mysqli = ConnectToDB();
-  $updateString = "UPDATE HelpRequests SET ";
+  $updateString = "UPDATE " . $table . " SET ";
 
   foreach ($dbArray as $key => $value) {
     $updateString .= $key . "='" . $value . "',";  
@@ -96,6 +107,10 @@ function UpdateRow($dbArray) {
 // Add a row to the database - return the new row number
 function AddRow($dbArray) {
   $mysqli = ConnectToDB();
+
+  $table =  $dbArray['Table'];
+  unset($dbArray['Table']);  
+
   $fields = "";
   $values = "";
   foreach ($dbArray as $key => $value) {
@@ -105,7 +120,7 @@ function AddRow($dbArray) {
   $fields = rtrim($fields, ",");
   $values = rtrim($values, ",");
 
-  $insertString = "INSERT INTO HelpRequests (" . $fields . ") VALUES (" . $values . ")";
+  $insertString = "INSERT INTO " . $table . " (" . $fields . ") VALUES (" . $values . ")";
   $mysqli->query($insertString);
   $mysqli->close();
 }
@@ -113,7 +128,7 @@ function AddRow($dbArray) {
 // Remove a row from the database
 function DeleteRow($dbArray) {
   $mysqli = ConnectToDB();
-  $deleteString = "DELETE FROM HelpRequests WHERE UserUID='" . $dbArray['UserUID'] . "'";
+  $deleteString = "DELETE FROM " . $dbArray["Table"] . " WHERE UserUID='" . $dbArray['UserUID'] . "'";
   $mysqli->query($deleteString);
   $mysqli->close();
 }

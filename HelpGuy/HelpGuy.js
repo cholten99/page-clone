@@ -12,7 +12,7 @@ function Login() {
 // Poll every two seconds for updates
 function PollSessionRequests() {
 
-  $.get('../Common/CRUD.php', { Function: 'GetAllRowsForFields', UserUID: 0 }, function(data) {
+  $.get('../Common/CRUD.php', { Function: 'GetAllRowsForFields', Table: 'InitialisePage', UserUID: 0 }, function(data) {
 
     var nameListArray = jQuery.parseJSON(data);
     var numberOfUsersWaiting = nameListArray.length;
@@ -41,7 +41,7 @@ function PollSessionRequests() {
     }
 
     // Loop around again every 2 seconds (forever) to set up another long-response AJAX call
-    setTimeout("PollSessionRequests();", 2000)
+    setTimeout("PollSessionRequests();", 2000);
 
   }); 
 

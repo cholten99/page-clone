@@ -31,50 +31,47 @@ function GetCookie(cookieName) {
 
   // Check if it's in the list but not the first
   var start = allCookies.indexOf(" " + cookieName + "=");
-
   if (start == -1) {
     // Check if it's the first
     start = allCookies.indexOf(cookieName + "=");
   }
-
   var value = null;
   // If we've still not found it it's not in there
   if (start != -1) {
     start = allCookies.indexOf("=", start) + 1;
     var end = allCookies.indexOf(";", start);
-
     if (end == -1) {
       end = allCookies.length;
     }
-
     value = unescape(allCookies.substring(start, end));
   }
-
   return value;
 }
 
 // Check to see if we're already in a help session
 function ExistingHelpSessionCheck() {
 
+  var page = location.pathname.substring(1);
+
   // Little hack to remove the cookie if we're loading the first page
-  if (document.URL == "http://bowsy.me.uk/PageClone/INeedHelp/") {
+  if ((page == "index.html") || (page == "PageClone/INeedHelp/")) {
     SetCookie("UserUID", "", 1);
     return;
   }
 
   var userUID = GetCookie("UserUID");
   if (userUID != "") {
-    DoIt(userUID);
+    SetUpSession(userUID);
   }
 }
 
 // Handle setting up (or updating) the connection to the help session
-function DoIt(userUID) {
+function SetUpSession(userUID) {
   // First load jQuery
   CheckLoadJSFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 
   // Load the other JS we need
-  CheckLoadJSFile("//bowsy.me.uk/PageClone/Common/Utils.js?v=4");
+  CheckLoadJSFile("../Common/Utils.js");
   CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelp/INeedHelpFull.js?v=4");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved

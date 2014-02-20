@@ -1,10 +1,12 @@
 <html>
   <head>
     <script src="INeedHelp.js"></script>
-    <link rel="stylesheet" type="text/css" href="INeedHelp.css">
+    <link rel="stylesheet" type="text/css" href="http://bowsy.me.uk/PageClone/INeedHelp/INeedHelp.css">
   </head>
 
   <body onload="ExistingHelpSessionCheck()">
+
+    <div id='HelpRequest'><button type='button' onclick='SetUpSession("NewCall")'>Request Help</button></div><p/>
 
     <div id="Header"><img src="../Common/Header.png"></div><p>
 
@@ -32,17 +34,13 @@
       </select><p>
 
       SORN Off-Road:<br>
-      <input type="radio" name="SORN" id="SORN" value="yes">Yes<br>
-      <input type="radio" name="SORN" id="SORN" value="no">No
+      <input type="radio" name="sorn" id="sornYesRadio" value="yes">Yes<br>
+      <input type="radio" name="sorn" id="sornNoRadio" value="no">No
       <p>
     
       <input type="submit" value="Finish"><p>
 
     </form><p>
-
-    <hr align="left" width="20%" size="3"/><p>
-
-    <div id='HelpRequest'><button type='button' onclick='DoIt("NewCall")'>Request Help</button></div>
 
   </body>
 </html>
