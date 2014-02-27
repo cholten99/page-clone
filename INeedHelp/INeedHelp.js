@@ -25,7 +25,7 @@ function SetCookie(cookieName, value, days) {
   document.cookie = cookieName + "=" + cookieValue;
 }
 
-// Get cookie function - needed in this JS to check is we are already in a session
+// Get cookie function
 function GetCookie(cookieName) {
   var allCookies = document.cookie;
 
@@ -54,6 +54,7 @@ function ExistingHelpSessionCheck() {
   var page = location.pathname.substring(1);
 
   // Little hack to remove the cookie if we're loading the first page
+  // would need something better to be more generic
   if ((page == "index.html") || (page == "PageClone/INeedHelp/")) {
     SetCookie("UserUID", "", 1);
     return;
@@ -70,9 +71,11 @@ function SetUpSession(userUID) {
   // First load jQuery
   CheckLoadJSFile("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 
-  // Load the other JS we need
-  CheckLoadJSFile("../Common/Utils.js");
-  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelp/INeedHelpFull.js?v=4");
+  // Then Firebase
+  CheckLoadJSFile("//cdn.firebase.com/js/client/1.0.6/firebase.js");
+
+  // Load the other JS we need - version numbers to get over irritating caching
+  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelp/INeedHelpFull.js?v=12");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved
   // So, call the next function from a timer
