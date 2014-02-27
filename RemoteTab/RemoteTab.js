@@ -109,7 +109,7 @@ function updateHTMLandFormBaseline(data) {
   }
 
   // Set up the HTML including the viewport wrapping DIV
-  var startPos = html.indexOf("ExistingHelpSessionCheck") + 34;
+  var startPos = html.indexOf("HelpRequest") - 9;
   html = html.substring(startPos);
   var endPos = html.indexOf("</body>");
   html = html.substring(0, endPos);
