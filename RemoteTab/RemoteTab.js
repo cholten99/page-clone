@@ -1,21 +1,3 @@
-/* 
-
-TBD:
- * More testing as didn't work when used remotely by Annie :-(
- * Tidy the code
- * Rewrite the documentation
- * Write business plan
-   * Review code wrt speed, etc updates and security
-   * Talk to IDA people wrt integration
-   * Try iFrame via proxy for same thing for any web site
-   * WebSockets (check via feature detection, not browser detection - same for WebRTC)
-   * WebRTC for both desktop sharing and video conferencing (how to check bandwidth : http://goo.gl/5dN73X?)?
-     * Also see : http://goo.gl/BGjG4Z
- * Get AD and User Experience testimonials
- * Book a meeting with David Wilks
-
-*/
-
 // Global variables
 var MouseClickImage;
 var MousePointerImage;
