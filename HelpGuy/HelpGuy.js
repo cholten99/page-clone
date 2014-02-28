@@ -1,48 +1,69 @@
-// Global variable for the HelperUID
+// Global variable for Firebase access, the HelperUID and vars to hold list of current open calls
+FirebaseRef = null;
 HelperUID = "";
+numberCurrentCalls = 0;
+currentCallsCounter = 0;
+currentCallIDs = new Array();
 
-// Login function - does nothing but update the UI and the global variable for now
+// Login function
 function Login() {
   HelperUID = $("#HelperUID").val();
   var newText = "Logged in as " + HelperUID + ".";
   $("#Login").html(newText);
-  PollSessionRequests();
+
+  // Connect to Firebase
+  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com");
+  listRef = FirebaseRef.child('index');
+
+  // Register for changes on the call counter
+  currentCallsRef = FirebaseRef.child('currentCalls');
+  currentCallsRef.on('value', function(snapshot) {
+
+    numberCurrentCalls = snapshot.val();
+
+    listRef.on('child_added', function(snapshot) {
+      currentCallIDs.push(snapshot.val());
+      currentCallsCounter++;
+
+      if (currentCallsCounter == numberCurrentCalls) {
+        $('#TopText').html("Number of open requests: " + numberCurrentCalls + "<p>");
+        $('#ListHeaders').html("<div id='ListHeader'>Session UID</div>");
+
+        var htmlString = "";
+        var odd = true;
+        for (var i=0; i < numberCurrentCalls; i++) {
+          var userUID = currentCallIDs[i];
+          var remoteTabURL = "http://bowsy.me.uk/PageClone/RemoteTab/index.html?UserUID=" + userUID;
+          var divContents = "<div id='" + odd + "'><a target='_blank' href='" + remoteTabURL;
+          divContents = divContents + "' onclick='updateHelpGuy(" + userUID + "); return true;'>" + userUID + "</a></div>";
+          htmlString += "<div id='ListRow'>" + divContents + "</div><p>";
+          odd ? odd = false : odd = true;
+        }
+        $('#Users').html(htmlString);
+
+        listRef.off();
+        currentCallsCounter = 0;
+        currentCallIDs = new Array();
+      }
+
+    });
+
+  });
+
 }
 
-// Poll every two seconds for updates
-function PollSessionRequests() {
+// Inform the help requestor who their support person is and tidy the calls list
+function updateHelpGuy(userUID) {
+  // Update the name of the assistant on the calling page
+  FirebaseRef.child('queue').child(userUID).update({assistant: HelperUID});
 
-  $.get('../Common/CRUD.php', { Function: 'GetAllRowsForFields', Table: 'InitialisePage', UserUID: 0 }, function(data) {
+  // Remove the call from the index - we'll remove it from the main queue when the remote window closes
+  removeRef = FirebaseRef.child('index').child(userUID);
+  removeRef.remove();
 
-    var nameListArray = jQuery.parseJSON(data);
-    var numberOfUsersWaiting = nameListArray.length;
-
-    $('#TopText').html("Number of open requests: " + numberOfUsersWaiting + "<p>");
-
-    // Don't even show the queue if there's nothing to show
-    if (numberOfUsersWaiting != 0) {
-
-      $('#ListHeaders').html("<div id='ListHeader'>Session Keyword</div>");
-
-      var htmlString = "";
-      var odd = true;
-      for (var i=0; i < numberOfUsersWaiting; i++) {
-        var userUID = nameListArray[i]['UserUID'];
-
-        var remoteTabURL = "http://bowsy.me.uk/PageClone/RemoteTab/index.php?UserUID=" + userUID;
-
-        var divContents = "<div id='" + odd + "'><a target='_blank' href='" + remoteTabURL + "'>" + userUID + "</a></div>";
-
-        htmlString += "<div id='ListRow'>" + divContents + "</div><p>";
-        odd ? odd = false : odd = true;
-      }
-      $('#Users').html(htmlString);
-
-    }
-
-    // Loop around again every 2 seconds (forever) to set up another long-response AJAX call
-    setTimeout("PollSessionRequests();", 2000);
-
-  }); 
-
+  // Finally decrease the currentCalls counter
+  var currentCallRef = FirebaseRef.child('currentCalls');
+  currentCallsRef.transaction(function(current_value) {
+    return current_value - 1;
+  });
 }
