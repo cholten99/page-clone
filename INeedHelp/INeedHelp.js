@@ -1,5 +1,5 @@
 // Config values to update when using the service on a different page
-var PageLocation = "PageClone/INeedHelp/";
+var PageLocation = "INeedHelp/";
 var CookieName = "TaxDiscUserUID";
 
 // Load javascript on the fly
