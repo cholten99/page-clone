@@ -1,5 +1,5 @@
 // Config values to update when using the service on a different page
-var PageLocation = "INeedHelp2/";
+var PageLocation = "INeedHelp2/index.html";
 var CookieName = "WasteCarrierUserUID";
 
 // Load javascript on the fly
