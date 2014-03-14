@@ -1,4 +1,4 @@
-// Global variable for Firebase access, users UID and assistant
+// Global variables for Firebase access, users UID and assistant
 FirebaseRef = null;
 UserUID = "";
 Assistant = "pending";
