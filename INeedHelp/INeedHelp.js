@@ -79,7 +79,7 @@ function SetUpSession(userUID) {
   CheckLoadJSFile("//cdn.firebase.com/js/client/1.0.6/firebase.js");
 
   // Load the other JS we need - version numbers to get over irritating caching
-  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelp/INeedHelpFull.js?v=14");
+  CheckLoadJSFile("//bowsy.me.uk/PageClone/INeedHelp/INeedHelpFull.js?v=15");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved
   // So, call the next function from a timer
