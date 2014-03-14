@@ -12,7 +12,7 @@ function Login() {
   $("#Login").html(newText);
 
   // Connect to Firebase
-  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com");
+  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com/PageClone");
   listRef = FirebaseRef.child('index');
 
   // Register for changes on the call counter

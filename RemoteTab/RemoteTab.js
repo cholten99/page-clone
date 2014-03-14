@@ -32,7 +32,7 @@ $(function() {
   }).appendTo('body');
 
   // Connect to Firebase
-  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com");
+  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com/PageClone/");
 
   // Initial page setup and page change event capture
   initialiseRef = FirebaseRef.child('queue').child(UserUID).child('initialise');

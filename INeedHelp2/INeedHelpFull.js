@@ -5,7 +5,7 @@ Assistant = "pending";
 
 function ConnectSession(userUID) {
   // Connect to Firebase
-  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com");
+  FirebaseRef = new Firebase("https://blazing-fire-4598.firebaseio.com/PageClone/");
 
   // Let's check if it's the first time we're doing this
   if (userUID == "NewCall") {
