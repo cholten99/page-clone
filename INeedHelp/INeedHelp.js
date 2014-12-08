@@ -1,6 +1,6 @@
 // Config values to update when using the service on a different page
-var PageLocation = "INeedHelp/index.html";
-var CookieName = "TaxDiscUserUID";
+var PageLocation = "page-clone/INeedHelp2/index.html";
+var CookieName = "TestCookieName";
 
 // Load javascript on the fly
 var filesadded="" //list of JS files already added
@@ -65,7 +65,8 @@ function ExistingHelpSessionCheck() {
   }
 
   var userUID = GetCookie(CookieName);
-  if (userUID != "") {
+console.log(userUID);
+  if (userUID != null) {
     SetUpSession(userUID);
   }
 }
@@ -79,7 +80,7 @@ function SetUpSession(userUID) {
   CheckLoadJSFile("//cdn.firebase.com/js/client/1.0.6/firebase.js");
 
   // Load the other JS we need - version numbers to get over irritating caching
-  CheckLoadJSFile("http://page-clone.gopagoda.com/INeedHelp/INeedHelpFull.js?v=16");
+  CheckLoadJSFile("http://bowsy.co.uk/page-clone/INeedHelp2/INeedHelpFull.js?v=16");
 
   // Irritatingly the imported JS isn't executable until this call stack is resolved
   // So, call the next function from a timer

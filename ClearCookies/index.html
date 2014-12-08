@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <script>
+function SetCookie(cookieName, value, days) {
+  var expireDate = new Date();
+  expireDate.setDate(0);
+  var cookieValue = escape(value) + ((days==null) ? "" : "; expires=" + expireDate.toUTCString() + "; path=/");
+  document.cookie = cookieName + "=" + cookieValue;
+}
+    </script>
+  </head>
+  <body>
+    <h2>'tis done!</h2>
+    <script>
+      console.log("Well, poot!");
+      SetCookie("TestCookieName", "deleted", 1);
+    </script>
+  </body>
+</html>

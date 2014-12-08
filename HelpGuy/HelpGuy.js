@@ -33,7 +33,7 @@ function Login() {
         var odd = true;
         for (var i=0; i < numberCurrentCalls; i++) {
           var userUID = currentCallIDs[i];
-          var remoteTabURL = "http://page-clone.gopagoda.com/RemoteTab/index.html?UserUID=" + userUID;
+          var remoteTabURL = "http://bowsy.co.uk/page-clone/RemoteTab/index.html?UserUID=" + userUID;
           var divContents = "<div id='" + odd + "'><a target='_blank' href='" + remoteTabURL;
           divContents = divContents + "' onclick='updateHelpGuy(" + userUID + "); return true;'>" + userUID + "</a></div>";
           htmlString += "<div id='ListRow'>" + divContents + "</div><p>";
